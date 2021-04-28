@@ -1,0 +1,25 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: mongotest
+  namespace: default
+  labels:
+    app: mongotest
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongotest
+    spec:
+      containers:
+        - name: mongotest
+          image: us.icr.io/ddp-athena-dev/mongotest
+          env:
+          - name: BINDING
+            valueFrom:
+              secretKeyRef:
+                name: binding-mongodb # Edit me
+                key: binding
+          ports:
+          - containerPort: 8080
