@@ -41,15 +41,13 @@ let credentials;
 // Retrieve the Kubernetes environment variables from BINDING in the clouddb-deployment.yaml file
 // Check to make sure that the BINDING environment variable is present
 // If it's not present, then it will throw an error
-if (process.env.BINDING) {
+if (!process.env.BINDING) {
+ console.error('ENVIRONMENT variable "BINDING" is not set!');
+ process.exit(1);
+} else {
     credentials = JSON.parse(process.env.BINDING);
+    console.log('Credenciales ' + credentials);
 }
-
-let endpoint_prefix = ""
-if (process.env.ENDPOINT_PREFIX) {
-    endpoint_prefix = process.env.ENDPOINT_PREFIX;
-}
-console.log('Using prefix ' + endpoint_prefix)
 
 assert(!util.isUndefined(credentials), "Must be bound to IBM Kubernetes Cluster");
 
